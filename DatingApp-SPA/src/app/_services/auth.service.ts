@@ -19,13 +19,11 @@ constructor(private http: HttpClient) { }
       .pipe(
         map((response: any) => {
           const user = response;
-          if(user){
+          if (user){
             localStorage.setItem('token', user.token);
-            this.decodedToken =this.jwtHelper.decodeToken(user.token);
+            this.decodedToken = this.jwtHelper.decodeToken(user.token);
             console.log(this.decodedToken);
-            
           }
-
         })
       );
   }
@@ -35,7 +33,10 @@ constructor(private http: HttpClient) { }
  }
 
  loggedIn(){
-   const token = localStorage.getItem('token');
-   return !this.jwtHelper.isTokenExpired(token);
+  const token = localStorage.getItem('token');
+   if (!!token){
+    return !this.jwtHelper.isTokenExpired(token);
+   }
+   else{return false; }
  }
 }
